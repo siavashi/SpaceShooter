@@ -10,8 +10,9 @@ namespace TAMKShooter.GUI
 {
 	public class LoadingIndicator : MonoBehaviour
 	{
-		[SerializeField] private Image _indicatorImage;
-		[SerializeField] private Image _backgroundImage;
+        [SerializeField] private Image _indicatorImage;
+        [SerializeField] private GameObject _indicatorWinText;
+        [SerializeField] private Image _backgroundImage;
 
 		private Coroutine _rotateCoroutine;
 		private Color _indicatorImageColor;
@@ -19,8 +20,9 @@ namespace TAMKShooter.GUI
 
 		public void Init()
 		{
-			gameObject.SetActive ( false );
-			Global.Instance.GameManager.GameStateChanging +=
+            gameObject.SetActive(false);
+            _indicatorWinText.SetActive(false);
+            Global.Instance.GameManager.GameStateChanging +=
 				HandleGameStateChanging;
 			Global.Instance.GameManager.GameStateChanged +=
 				HandleGameStateChanged;
@@ -46,8 +48,9 @@ namespace TAMKShooter.GUI
 			_tweeners.Add( DOTween.To ( () => _backgroundImage.color,
 				( value ) => _backgroundImage.color = value,
 				Color.clear, 0.5f ).OnComplete ( TweenCompleted ) );
+            
 
-			_tweeners.Add( DOTween.To( () => _indicatorImage.color,
+            _tweeners.Add( DOTween.To( () => _indicatorImage.color,
 				( value ) => _indicatorImage.color = value,
 				Color.clear, 0.5f ) );
 		}
@@ -69,26 +72,35 @@ namespace TAMKShooter.GUI
 
 		private void HandleGameStateChanging ( GameStateType obj )
 		{
-			gameObject.SetActive ( true );
-			_rotateCoroutine = StartCoroutine ( Rotate () );
+           
+                gameObject.SetActive(true);
+                _rotateCoroutine = StartCoroutine(Rotate(obj));
 
-			_backgroundImage.color = Color.clear;
-			_indicatorImage.color = Color.clear;
+                _backgroundImage.color = Color.clear;
+                _indicatorImage.color = Color.clear;
 
-			DOTween.To ( () => _backgroundImage.color,
-				( value ) => _backgroundImage.color = value,
-				Color.black, 0.5f );
+                DOTween.To(() => _backgroundImage.color,
+                    (value) => _backgroundImage.color = value,
+                    Color.black, 0.5f);
 
-			DOTween.To( () => _indicatorImage.color,
-				( value ) => _indicatorImage.color = value,
-				_indicatorImageColor, 0.5f );
+                DOTween.To(() => _indicatorImage.color,
+                    (value) => _indicatorImage.color = value,
+                    _indicatorImageColor, 0.5f);
+            
+			
 		}
 
-		private IEnumerator Rotate()
+		private IEnumerator Rotate(GameStateType obj)
 		{
 			while(true)
 			{
-				_indicatorImage.transform.Rotate ( Vector3.forward,
+                if (obj == GameStateType.InGameState)
+                {
+                    _indicatorWinText.SetActive(true);
+                }
+                
+
+                _indicatorImage.transform.Rotate ( Vector3.forward,
 					-180 * Time.deltaTime, Space.Self );
 				yield return null;
 			}

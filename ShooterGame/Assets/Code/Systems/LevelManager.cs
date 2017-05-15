@@ -86,12 +86,14 @@ namespace TAMKShooter.Systems
 
 		public void ConditionMet ( ConditionBase condition )
 		{
+            Debug.Log("ConditionMet");
 			bool areConditionsMet = true;
 			foreach(ConditionBase c in _conditions)
 			{
 				if(!c.IsConditionMet)
 				{
-					areConditionsMet = false;
+                    Debug.Log("ConditionIsNotMet");
+                    areConditionsMet = false;
 					break;
 				}
 			}
@@ -99,7 +101,9 @@ namespace TAMKShooter.Systems
 			if(areConditionsMet)
 			{
 				( AssociatedState as GameState ).LevelCompleted ();
-			}
+                areConditionsMet = false;
+
+            }
 		}
 
 		public void UpdateMovement ( InputManager.ControllerType controller,

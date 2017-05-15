@@ -22,6 +22,7 @@ namespace TAMKShooter.Systems
 		InGameToMenu,
 		InGameToInGame,
 		InGameToGameOver,
+        InGameToGameCompleted,
 		GameOverToMenu
 	}
 
@@ -50,7 +51,8 @@ namespace TAMKShooter.Systems
 			AddState( CurrentState );
 			AddState ( new GameState () );
 			AddState( new GameOverState() );
-		}
+            AddState(new GameCompeletedState());
+        }
 
 		public bool AddState( GameStateBase state )
 		{
@@ -89,10 +91,12 @@ namespace TAMKShooter.Systems
 
 		public bool PerformTransition(GameStateTransitionType transition)
 		{
-			GameStateType targetStateType =
+            Debug.Log("CallingThetransition");
+            Debug.Log("Transition is: "+ transition);
+            GameStateType targetStateType =
 				CurrentState.GetTargetStateType ( transition );
-
-			if(targetStateType == GameStateType.Error)
+            Debug.Log("targetStateType is: " + targetStateType);
+            if (targetStateType == GameStateType.Error)
 			{
 				return false;
 			}

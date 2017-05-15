@@ -34,27 +34,35 @@ namespace TAMKShooter.Systems.States
 				GameStateType.MenuState );
 			AddTransition ( GameStateTransitionType.InGameToInGame,
 				GameStateType.InGameState );
-		}
+            AddTransition(GameStateTransitionType.InGameToGameCompleted,
+                GameStateType.GameCompeletedState);
+        }
 
 		public GameState() : this ( 1 ) { }
 
 		public void LevelCompleted()
 		{
 
-            if (Config.LevelNames[CurrentLevelIndex] == "Level1")
+            if (SceneName == "Level1")
             {
                 //TODO: Add proper Transition after the level is completed
                 CurrentLevelIndex++;
+                Debug.Log("LevelisCompleted");
                 Global.Instance.GameManager.PerformTransition(
                     GameStateTransitionType.InGameToInGame);
 
             }
-            else
+            else if (SceneName == "Level2")
             {
+                Debug.Log("GameIsCompleted");
                 CurrentLevelIndex++;
-                Global.Instance.GameManager.PerformTransition(
-                    GameStateTransitionType.InGameToMenu);
+                    Global.Instance.GameManager.PerformTransition(
+                    GameStateTransitionType.InGameToGameCompleted);
             }
+               
+                
+            
+            
             
         }
 

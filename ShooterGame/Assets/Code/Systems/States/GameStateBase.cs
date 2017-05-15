@@ -24,10 +24,11 @@ namespace TAMKShooter.Systems.States
 				targetState == GameStateType.Error ||
 				Transitions.ContainsKey(transition) )
 			{
-				// We cannot add a transition to our dictionary more than once.
-				// Otherwise we wouldn't know to which state we should go with
-				// that transition.
-				return false;
+                // We cannot add a transition to our dictionary more than once.
+                // Otherwise we wouldn't know to which state we should go with
+                // that transition.
+                Debug.Log("NotAddedTransition");
+                return false;
 			}
 
 			Transitions.Add ( transition, targetState );
@@ -41,7 +42,8 @@ namespace TAMKShooter.Systems.States
 
 		public GameStateType GetTargetStateType ( GameStateTransitionType transition )
 		{
-			if ( Transitions.ContainsKey ( transition ) )
+            Debug.Log(Transitions.Count);
+            if ( Transitions.ContainsKey ( transition ) )
 			{
 				return Transitions[transition];
 			}
@@ -50,6 +52,7 @@ namespace TAMKShooter.Systems.States
 
 		public virtual void StateActivated()
 		{
+            Debug.Log("SceneName: "+ SceneName);
 			if(SM.SceneManager.GetActiveScene().name != SceneName)
 			{
 				SM.SceneManager.sceneLoaded += HandleSceneLoaded;
@@ -76,7 +79,8 @@ namespace TAMKShooter.Systems.States
 
 		private IEnumerator LoadScene()
 		{
-			yield return new WaitForSeconds ( 5 );
+            Debug.Log("LoadTheScene"+ SceneName);
+			yield return new WaitForSeconds ( 3 );
 			SM.SceneManager.LoadScene ( SceneName );
 		}
 	}

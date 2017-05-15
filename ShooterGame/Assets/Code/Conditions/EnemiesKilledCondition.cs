@@ -24,8 +24,9 @@ namespace TAMKShooter.Level
 			if(_enemiesKilled >= _enemyCount)
 			{
 				IsConditionMet = true;
-				LevelManager.ConditionMet ( this );
-			}
+                LevelManager.ConditionMet(this);
+                IsConditionMet = false;
+            }
 		}
 	}
 }

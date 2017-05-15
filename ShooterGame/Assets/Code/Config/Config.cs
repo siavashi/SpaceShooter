@@ -13,11 +13,11 @@ namespace TAMKShooter.Configs
 			{
 				{ 1, "Level1" },
 				{ 2, "Level2" },
-                { 2, "Credit" }
+                { 3, "Credit" }
             };
 
 		public const string GameOverSceneName = "GameOver";
-        public const string GameCompeletedName = "GameCompleted";
+        public const string GameCompeletedName = "Credit";
         public const string PlayerProjectileLayerName = "PlayerProjectile";
 		public const string EnemyProjectileLayerName = "EnemyProjectile";
 
